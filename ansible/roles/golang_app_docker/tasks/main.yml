@@ -1,0 +1,28 @@
+---
+# tasks file for golang_app_docker
+- name: copy .go file and dockerfile
+  copy:
+    src: "{{ item }}"
+    dest: /root/
+    mode: "777"
+  with_items:
+    - Dockerfile
+    - main.go
+
+- name: create docker image with copied Dockerfile
+  docker_image:
+    name: golang_app
+    tag: v1
+    state: present
+    build:
+      dockerfile: /root/Dockerfile
+      path: /root/
+
+
+- name: create docker container with app
+  docker_container:
+    name: golang_app
+    image: golang_app:v1
+    restart: yes
+    exposed_ports: 8070
+    published_ports: 8070:8070

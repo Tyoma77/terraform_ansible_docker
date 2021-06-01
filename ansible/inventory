@@ -1,0 +1,5 @@
+---
+all:
+  hosts:
+    docker:   
+      ansible_host: 167.99.93.255
